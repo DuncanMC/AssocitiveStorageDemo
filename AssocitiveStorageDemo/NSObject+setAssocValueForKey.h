@@ -1,6 +1,5 @@
 //
 //  NSObject+setAssocValueForKey.h
-//  ChromaKey
 //
 //  Created by Duncan Champney on 12/4/12.
 //
@@ -23,6 +22,12 @@
  Call assocValueForKey: to fetch the value stored for a key (if any) 
  (Just like the KVO method valueForKey: )
  
+ 4/10/2013: updated both the class and instance method versions of setAssocValue:forKey: to allow you to
+ specify a nil value for a key. That removes the saved key/value pair.
+ 
+ Note that if you use setAssocValue:forKey on a class, the key/value pair you store will persist for the life
+ of the applicaton unless you set the key to nil. (Classes don't get released by the runtime.)
+ 
  The associated storage is released automatically when the "target object" is released.
  This code should work perfectly in either ARC or manual reference counted programs.
  //-----------------------------------------------------------------------------------------------------------
@@ -32,7 +37,25 @@
 
 @interface NSObject (setAssocValueForKey)
 
+
 //-----------------------------------------------------------------------------------------------------------
+#pragma mark - class  methods
+//-----------------------------------------------------------------------------------------------------------
+
+//Add a key/value pair to an object
+
++ (void) setAssocValue: (NSObject *) value forKey: (NSString *) key;
+
+//-----------------------------------------------------------------------------------------------------------
+//Fetch a saved value for the specified key. Returns nil if no object can be found with that key.
+
++ (NSObject *) assocValueForKey: (NSString *) key;
+//-----------------------------------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------------------------------
+#pragma mark - instance  methods
+//-----------------------------------------------------------------------------------------------------------
+
 //Add a key/value pair to an object
 
 - (void) setAssocValue: (NSObject *) value forKey: (NSString *) key;

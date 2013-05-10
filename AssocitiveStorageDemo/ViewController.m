@@ -28,7 +28,7 @@
   UIActionSheet *sheet = [self buildSheetWithTitle: title];
 
   //  //Define the block of code that will be run by the sheet delegate when the sheet is dismissed.
-  sheetDismissedBlock sheetDismissedBlock = ^void(NSInteger buttonIndex)
+  sheetDismissedBlock theSheetDismissedBlock = ^void(NSInteger buttonIndex)
   {
     NSString *message = NSLocalizedString(@"You clicked button %d in sheet %d",
                                           @"'You clicked button x in sheet x' message");
@@ -38,7 +38,7 @@
   };
   
   //Add the block of code to the sheet as an associated value
-  [sheet setAssocValue: sheetDismissedBlock forKey: @"sheetDismissedBlock"];
+  [sheet setAssocValue: theSheetDismissedBlock forKey: @"sheetDismissedBlock"];
   
   [sheet showInView: self.view];
 
@@ -53,7 +53,7 @@
 
   UIActionSheet *sheet = [self buildSheetWithTitle: title];
   //Define the block of code that will be run by the sheet delegate when the sheet is dismissed.
-  sheetDismissedBlock sheetDismissedBlock = ^void(NSInteger buttonIndex)
+  sheetDismissedBlock theSheetDismissedBlock = ^void(NSInteger buttonIndex)
   {
     NSString *message = NSLocalizedString(@"You clicked button %d in sheet %d",
                                           @"'You clicked button x in sheet x' message");
@@ -63,7 +63,7 @@
   };
   
   //Add the block of code to the sheet as an associated value
-  [sheet setAssocValue: sheetDismissedBlock forKey: @"sheetDismissedBlock"];
+  [sheet setAssocValue: theSheetDismissedBlock forKey: @"sheetDismissedBlock"];
   
   [sheet showInView: self.view];
 }

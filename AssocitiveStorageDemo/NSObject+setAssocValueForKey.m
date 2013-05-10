@@ -1,6 +1,5 @@
 //
 //  NSObject+setAssocValueForKey.m
-//  ChromaKey
 //
 //  Created by Duncan Champney on 12/4/12.
 //
@@ -28,6 +27,47 @@ void objc_removeAssociatedObjects(id object);
 static const char associatedStorageKey;
 
 //-----------------------------------------------------------------------------------------------------------
+#pragma mark - class  methods
+//-----------------------------------------------------------------------------------------------------------
+
++ (NSMutableDictionary *) associationDictionary;
+{
+  NSMutableDictionary *associationDictionary = objc_getAssociatedObject(self, (void*) &associatedStorageKey);
+  if (!associationDictionary)
+  {
+    associationDictionary = [NSMutableDictionary dictionary];
+    objc_setAssociatedObject(self, (void*) &associatedStorageKey, associationDictionary, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+  }
+  return associationDictionary;
+}
+
+//-----------------------------------------------------------------------------------------------------------
+
++ (void) setAssocValue: (NSObject *) value forKey: (NSString *) key;
+{
+  if (key.length == 0)
+    return;
+  NSMutableDictionary * associationDictionary = [self associationDictionary];
+  if (!value)
+    [associationDictionary removeObjectForKey: key];
+  else
+    [associationDictionary setValue: value forKey: key];
+}
+
+//-----------------------------------------------------------------------------------------------------------
+
++ (NSObject *) assocValueForKey: (NSString *) key;
+{
+  if (!key.length) return nil;
+  
+  NSMutableDictionary * associationDictionary = [self associationDictionary];
+  
+  return [associationDictionary objectForKey: key];
+}
+
+//-----------------------------------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------------------------------
 #pragma mark - Instance methods
 //-----------------------------------------------------------------------------------------------------------
 
@@ -46,8 +86,13 @@ static const char associatedStorageKey;
 
 - (void) setAssocValue: (NSObject *) value forKey: (NSString *) key;
 {
+  if (key.length == 0)
+    return;
   NSMutableDictionary * associationDictionary = [self associationDictionary];
-  [associationDictionary setValue: value forKey: key];
+  if (!value)
+    [associationDictionary removeObjectForKey: key];
+  else
+    [associationDictionary setValue: value forKey: key];
 }
 
 //-----------------------------------------------------------------------------------------------------------
